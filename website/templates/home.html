@@ -1,0 +1,286 @@
+{% extends "layout.html" %}{% block content %}
+
+<div class="row py-5" style="min-height: 100vh">
+  <div class="col-9">
+    <form id="upload-file" method="POST" enctype="multipart/form-data">
+      <div class="row px-3">
+        <div class="col-12 mb-5">
+          <h1 class="title">Merge CSV</h1>
+          <h5>
+            Streamline Your Data: Our Site Makes Merging Spreadsheets a Breeze!
+            Combine, Simplify.
+          </h5>
+          <p>
+            Create by
+            <a
+              href="https://www.linkedin.com/in/peterson-ian-702459200/"
+              target="_blank"
+              rel="noopener noreferrer"
+              >@Peterson</a
+            >
+          </p>
+        </div>
+        <div class="col-6 px-2">
+          <div class="container-upload">
+            <h3>Upload your File</h3>
+            <div class="drag-area" id="drag-areaOne">
+              <i class="icon fa fa-file-excel-o" aria-hidden="true"></i>
+              <span class="header"> Drag & Drop </span>
+              <span class="header">
+                or <span class="buttonOne">browse</span>
+              </span>
+              <input hidden type="file" id="fileOne" name="fileOne" />
+              <span class="support">Supports: .csv</span>
+            </div>
+
+            <div class="file-uploadOne">
+              <i class="icon fa fa-file-excel-o" aria-hidden="true"></i>
+              <br />
+              <span class="header name-fileOne"></span>
+              <br />
+              <button
+                type="button"
+                class="btn font-weight-bold mt-3 btn-outline-success"
+                data-toggle="modal"
+                data-target="#modalFistFile"
+              >
+                Visualizar Arquivo
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 px-2">
+          <div class="container-upload">
+            <h3>Upload your File</h3>
+            <div class="drag-area" id="drag-areaTwo">
+              <i class="icon fa fa-file-excel-o" aria-hidden="true"></i>
+              <span class="header"> Drag & Drop </span>
+              <span class="header">
+                or <span class="buttonTwo">browse</span>
+              </span>
+              <input hidden type="file" id="fileTwo" name="fileTwo" />
+              <span class="support">Supports: .csv</span>
+            </div>
+
+            <div class="file-uploadTwo">
+              <i class="icon fa fa-file-excel-o" aria-hidden="true"></i>
+              <br />
+              <span class="header name-fileTwo"></span>
+              <br />
+              <button
+                type="button"
+                class="btn font-weight-bold mt-3 btn-outline-success"
+                data-toggle="modal"
+                data-target="#modalSecondFile"
+              >
+                Visualizar Arquivo
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div
+      class="modal fade"
+      id="modalFistFile"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="modalFistFileTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            
+            <h5 class="modal-title" id="exampleModalLongTitle">File One</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span style="color: white" aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <span>The table result is a limited preview</span>
+            <br>
+            <br>
+            <div id="conteudo-tableOne"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="modalSecondFile"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="modalSecondFileTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            
+            <h5 class="modal-title" id="exampleModalLongTitle">File Two</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span style="color: white" aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <span>The table result is a limited preview</span>
+            <br>
+            <br>
+            <div id="conteudo-tableTwo"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-3 container-control">
+    <div class="container advise py-2">
+      <small>
+        Selecting relationship columns is key in merging files, linking shared
+        data for accurate alignment.
+      </small>
+    </div>
+
+    <br />
+    <div class="form-group">
+      <label for="selectOne" class="text-left w-100"
+        >First Relationship Column:</label
+      >
+      <select id="selectOne" class="form-control" name="selectOne"></select>
+    </div>
+
+    <div class="form-group">
+      <label for="selectTwo" class="text-left w-100"
+        >Second Relationship Column:</label
+      >
+      <select id="selectTwo" class="form-control" name="selectTwo"></select>
+    </div>
+    <div class="col-12 text-center m-auto container-btnMerge">
+      <button
+        id="merge-files-btn"
+        class="btn btn-success"
+        type="button"
+        disabled
+      >
+        Merge
+      </button>
+    </div>
+  </div>
+
+  <div
+    class="modal fade"
+    id="modalUnionFile"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="modalUnionFileTitle"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Result</h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span style="color: white" aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <span
+            >The table result is a limited preview, the full results are
+            available only for download</span
+          >
+          <br>
+          <br>
+          <div id="conteudo-unionFile"></div>
+          <div class="text-center m-auto form-group">
+            <input
+              type="text"
+              id="nameFile"
+              class="form-control"
+              placeholder="Write the file name..."
+              max="50"
+            />
+            <button
+              type="button"
+              class="btn float-right font-weight-bold mt-3 btn-success"
+              id="download-file-btn"
+            >
+              Download
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function () {
+      $("#merge-files-btn").click(function () {
+        if ($("#selectOne").val() != "" || $("#selectOne").val() != "") {
+          var form_data = new FormData($("#upload-file")[0]);
+          form_data.append("optionOne", $("#selectOne").val());
+          form_data.append("optionTwo", $("#selectTwo").val());
+
+          $.ajax({
+            type: "POST",
+            url: "/resultado",
+            data: form_data,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (data) {
+              console.log(data);
+              $("#conteudo-unionFile").html("");
+              $("#conteudo-unionFile").append(data.fileMerge);
+              $("#modalUnionFile").modal("show");
+            },
+          });
+        }
+      });
+
+      $("#download-file-btn").click(function () {
+        var form_data = new FormData($("#upload-file")[0]);
+        form_data.append("optionOne", $("#selectOne").val());
+        form_data.append("optionTwo", $("#selectTwo").val());
+
+        var req = new XMLHttpRequest();
+        req.open("POST", "/downloadCSV", true);
+        req.responseType = "blob";
+        req.onload = function (event) {
+          var blob = req.response;
+
+          var name = $("#nameFile").val();
+
+          if (name == "") {
+            name = "file";
+          }
+
+          var fileName = name; //if you have the fileName header available
+          var link = document.createElement("a");
+          link.href = window.URL.createObjectURL(blob);
+          link.download = fileName;
+          link.click();
+        };
+
+        req.send(form_data);
+      });
+    });
+  </script>
+</div>
+{% endblock %}
